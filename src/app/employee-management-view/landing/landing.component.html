@@ -1,4 +1,6 @@
 <div class="main">
-    <div class="employee-list-header">Employee List</div>
-    <app-employee-list></app-employee-list>
+    <div class="employee-list-header">{{ headerTitle() }}</div>
+    <div class="layouts">
+    <router-outlet></router-outlet>
+    </div>
 </div>

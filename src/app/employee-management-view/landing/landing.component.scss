@@ -2,13 +2,18 @@
 {
     width: 100%;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-
+.layouts
+{
+    height: calc(100vh - 53px );
+}
 .employee-list-header {
     background-color: #1DA1F2;
-    color: white;
     position: sticky;
     top: 0px;
+    color: white;
     padding: 16px;
     z-index: 1000;
     font-size: 18px;

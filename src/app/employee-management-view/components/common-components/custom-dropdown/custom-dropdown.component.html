@@ -1,0 +1,22 @@
+<div class="dropdown-container">
+    <div class="dropdown-header" (click)="toggleDropdown()">
+      <div class="seprator-wrapper">
+        <img src="assets/icons/suit-case.svg" alt="" />
+        <span class="selected-value" [ngClass]="{ selected: selectedRole()?.label }">
+          {{ selectedRole()?.label || 'Select role' }}
+        </span>
+      </div>
+      <img src="assets/icons/down-arrow.svg" alt="" />
+    </div>
+  
+    <div class="dropdown-list" *ngIf="isDropdownOpen()">
+      <div
+        class="dropdown-item"
+        *ngFor="let role of roles"
+        (click)="selectRole(role)"
+      >
+        {{ role.label }}
+      </div>
+    </div>
+  </div>
+  

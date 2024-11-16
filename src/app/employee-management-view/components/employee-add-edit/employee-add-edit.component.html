@@ -1,36 +1,42 @@
 <div class="employee-add-container">
-    <header class="employee-add-header">
-      Add Employee Details
-    </header>
   
     <form class="employee-add-form">
+
+      <div class="post-form">
+
       <div class="form-group">
-        <label for="employeeName">
-          <span class="material-icons">person</span> Employee Name
-        </label>
-        <input id="employeeName" type="text" placeholder="Employee name" />
+        <div class="custom-input">
+          <img src="assets/icons/person.svg" alt="">
+          <input
+          id="employeeName"
+          type="text"
+          placeholder="Employee name"
+          [value]="employeeName()"
+          (input)="onInput($event)"
+        />
+
+        </div>
       </div>
   
       <div class="form-group">
-        <label for="role">
-          <span class="material-icons">work</span> Select Role
-        </label>
-        <select id="role">
-          <option value="designer">Product Designer</option>
-          <option value="developer">Flutter Developer</option>
-          <option value="tester">QA Tester</option>
-          <option value="owner">Product Owner</option>
-        </select>
+        <app-custom-dropdown
+        [roles]="roles"
+        [selectedRoleInput]="selectedRole()"
+        (roleSelected)="onRoleSelected($event)"
+      ></app-custom-dropdown>
       </div>
   
       <div class="form-group date-picker-group">
         <!-- <app-date-picker></app-date-picker> -->
       </div>
+
+     </div>
   
       <div class="form-actions">
-        <button (click)="navigateToListEmployee()" type="button" class="cancel-button" routerLink="/">Cancel</button>
-        <button type="submit" class="save-button">Save</button>
+        <button (click)="navigateToListEmployee()" type="button" class="cancel-button" >Cancel</button>
+        <button [disabled]="!isFormValid()" (click)="saveEmployee()" type="submit" class="save-button">Save</button>
       </div>
+
     </form>
   </div>
   

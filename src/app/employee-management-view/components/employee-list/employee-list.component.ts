@@ -38,7 +38,10 @@ export class EmployeeListComponent implements OnInit {
   }
 
   navigateToAddEmployee() {
-    this.router.navigate(['/add-employee']); // Navigate to the Add Employee page
+    this.router.navigate(['/add-edit-employee'], {
+      queryParams: { mode: 'add'}, 
+  
+    });
   }
 }
 

@@ -20,7 +20,7 @@
             <div *ngFor="let employee of employees" class="employee-item" (swipeleft)="deleteEmployee(employee.id)">
                 <div class="employee-info">
                   <h3>{{ employee.name }}</h3>
-                  <p>{{ employee.role }}</p>
+                  <p>{{ employee.role.label }}</p>
                   <p>
                     {{ employee.startDate  }} - 
                     {{ employee.endDate }}
@@ -39,7 +39,7 @@
             <div *ngFor="let employee of employees" class="employee-item" (swipeleft)="deleteEmployee(employee.id)">
                 <div class="employee-info">
                   <h3>{{ employee.name }}</h3>
-                  <p>{{ employee.role }}</p>
+                  <p>{{ employee.role.label }}</p>
                   <p>
                     {{ employee.startDate  }} - 
                     {{ employee.endDate }}
