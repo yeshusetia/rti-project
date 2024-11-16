@@ -1,0 +1,73 @@
+.employee-add-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    height: 100vh;
+  }
+  
+  .employee-add-header {
+    background-color: #2196f3;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 16px;
+  }
+  
+  .employee-add-form {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    gap: 16px;
+  }
+  
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  
+  input,
+  select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .date-picker-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+  }
+  
+  .cancel-button {
+    background-color: #f5f5f5;
+    color: #757575;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .save-button {
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,36 @@
+<div class="employee-list-container">
+    <div class="employee-list-header">Employee List</div>
+  
+    <!-- If the employee list is empty -->
+    <div *ngIf="employees.length === 0; else employeeList" class="employee-list-body">
+      <div class="no-records-container">
+        <img src="assets/images/empty-list.svg" alt="No Records" class="no-records-image" />
+        <p class="no-records-text">No employee records found</p>
+      </div>
+    </div>
+  
+    <!-- If the employee list is not empty -->
+    <ng-template #employeeList>
+      <div class="employee-list-body">
+        <div *ngFor="let employee of employees" class="employee-item" (swipeleft)="deleteEmployee(employee.id)">
+          <div class="employee-info">
+            <h3>{{ employee.name }}</h3>
+            <p>{{ employee.role }}</p>
+            <p>
+              {{ employee.startDate  }} - 
+              {{ employee.endDate }}
+            </p>
+          </div>
+          <div class="delete-button" (click)="deleteEmployee(employee.id)">
+            <span class="material-icons">delete</span>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  
+    <!-- Add Employee Button -->
+    <button (click)="navigateToAddEmployee()" class="add-button" aria-label="Add Employee">
+      <span>+</span>
+    </button>
+  </div>
+  
