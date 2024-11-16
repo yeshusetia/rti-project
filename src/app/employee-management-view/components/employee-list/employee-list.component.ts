@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { IndexeddbService } from '../../services/indexeddb.service';
 import { Router } from '@angular/router';
-
+import { CommonModule } from '@angular/common'; 
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.scss'],
 })

@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DatePickerComponent } from '../common-components/date-picker/date-picker.component';
 import { IndexeddbService } from '../../services/indexeddb.service';
-
+import { CommonModule } from '@angular/common'; 
 @Component({
   selector: 'app-employee-add-edit',
   standalone: true,
-  imports: [DatePickerComponent],
+  imports: [DatePickerComponent,CommonModule],
   templateUrl: './employee-add-edit.component.html',
   styleUrl: './employee-add-edit.component.scss'
 })
@@ -14,7 +14,7 @@ export class EmployeeAddEditComponent {
   constructor(private router: Router,private indexedDBService: IndexeddbService) {}
 
    ngOnInit() {
-
+this.saveEmployee()
   }
 
   async saveEmployee() {
