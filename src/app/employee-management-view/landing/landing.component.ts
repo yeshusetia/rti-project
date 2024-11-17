@@ -22,21 +22,26 @@ export class LandingComponent {
       const route = this.currentRoute();
       const mode = this.queryParams()['mode'];
   
-      if (route.includes('add-edit')) {
+    //  if (route.includes('add-edit')) {
         if (mode == 'add') {
           return 'Add Employee';
         } else if (mode == 'edit') {
         
           return 'Edit Employee';
         }
-      }
+        else
+        {
+          return 'Employee List';
+        }
+    //  }
   
-      return 'Employee List';
+   
     }// Enable signal writes inside this computed
   );
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) 
   {
+    
     this.currentRoute.set(this.router.url);
     this.activatedRoute.queryParams.subscribe((params) => {
       this.queryParams.set(params); 
