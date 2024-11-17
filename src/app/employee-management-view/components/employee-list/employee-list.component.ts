@@ -12,7 +12,9 @@ import { CommonModule } from '@angular/common';
 })
 export class EmployeeListComponent implements OnInit {
   employees: any[] = [];
-
+  private touchStartX: number = 0;
+  private currentEmployee: any = null;
+  private threshold: number = 50; // Minimum swipe distance to trigger action
   constructor(private router: Router,private indexedDBService: IndexeddbService) {}
 
   async ngOnInit() {
@@ -40,8 +42,46 @@ export class EmployeeListComponent implements OnInit {
   navigateToAddEmployee() {
     this.router.navigate(['/add-edit-employee'], {
       queryParams: { mode: 'add'}, 
-  
     });
   }
+  navigateToEditEmployee(employee:any)
+  {
+    this.router.navigate(['/add-edit-employee'], {
+      queryParams: { mode: 'edit',id:employee.id}, 
+    });
+  }
+
+
+  onTouchStart(event: TouchEvent) {
+    this.touchStartX = event.touches[0].clientX;
+  }
+
+ 
+
+  onTouchMove(event: TouchEvent, employee: any) {
+    const touchCurrentX = event.touches[0].clientX;
+    const swipeDistance = touchCurrentX - this.touchStartX;
+
+    // Limit swipe to left only (negative values)
+    if (swipeDistance < 0) {
+      employee.translateX = swipeDistance; // Update the translateX value dynamically
+      this.currentEmployee = employee; // Track the swiped employee
+    }
+  }
+
+  onTouchEnd(employee: any) {
+    const threshold = -100; 
+
+    if (employee.translateX < threshold) {
+      // Swipe is successful, delete the employee
+      this.deleteEmployee(employee.id);
+    } else {
+      // Reset translateX if swipe is incomplete
+      employee.translateX = 0;
+    }
+
+    this.currentEmployee = null; // Clear the current swiped employee
+  }
+
 }
 

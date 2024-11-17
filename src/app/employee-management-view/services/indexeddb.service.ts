@@ -37,6 +37,11 @@ export class IndexeddbService {
     }
   }
 
+  async getEmployeeById(id: number): Promise<Employee | undefined> {
+    await this.ensureDBInitialized();
+    return await this.db.get('employees', id);
+  }
+
   // Add an employee to the database
   async addEmployee(employee: Employee): Promise<any> {
     await this.ensureDBInitialized();

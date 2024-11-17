@@ -10,7 +10,11 @@ import { Component, Input, Output, EventEmitter, signal } from '@angular/core';
 })
 export class CustomDropdownComponent {
   @Input() roles: { label: string; value: any }[] = [];
-  @Input() selectedRoleInput: { label: string; value: any } | null = null;
+  @Input() set selectedRoleInput(value: { label: string; value: any } | null) {
+    if (value) {
+      this.selectedRole.set(value); 
+    }
+  }
   @Output() roleSelected = new EventEmitter<{ label: string; value: any }>();
 
   isDropdownOpen = signal(false);

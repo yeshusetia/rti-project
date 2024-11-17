@@ -106,4 +106,14 @@
     padding: 12px 22px;
     cursor: pointer;
   }
-  
+  .save-button:disabled {
+    background-color: #e0e0e0; 
+    color: #666; 
+    cursor: not-allowed;
+  }
+
+  .success-snackbar {
+    background-color: #4caf50 !important; // Green for success
+    color: #fff !important;
+    z-index: 2000 !important;
+  }

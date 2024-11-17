@@ -17,22 +17,26 @@
             <div class="employee-heading">
                 <span>Current employees</span>
             </div>
-            <div *ngFor="let employee of employees" class="employee-item" (swipeleft)="deleteEmployee(employee.id)">
-                <div class="employee-info">
-                  <h3>{{ employee.name }}</h3>
-                  <p>{{ employee.role.label }}</p>
-                  <p>
-                    {{ employee.startDate  }} - 
-                    {{ employee.endDate }}
-                  </p>
-                </div>
-                <!-- <div class="delete-button" (click)="deleteEmployee(employee.id)">
-                  <span class="material-icons">delete</span>
-                </div> -->
-              </div>
+            <div
+            *ngFor="let employee of employees"
+            (click)="navigateToEditEmployee(employee)"
+            class="employee-item"
+            (touchstart)="onTouchStart($event)"
+            (touchmove)="onTouchMove($event, employee)"
+            (touchend)="onTouchEnd(employee)"
+            [style.transform]="employee.translateX ? 'translateX(' + employee.translateX + 'px)' : 'none'"
+          >
+            <div class="employee-info">
+              <h3>{{ employee.name }}</h3>
+              <p>{{ employee.role.label }}</p>
+              <p>
+                {{ employee.startDate }} - {{ employee.endDate }}
+              </p>
+            </div>
+          </div>
         </div>
 
-        <div class="previous-employees">
+        <!-- <div class="previous-employees">
             <div class="employee-heading">
                 <span>Previous employees</span>
             </div>
@@ -45,11 +49,9 @@
                     {{ employee.endDate }}
                   </p>
                 </div>
-                <!-- <div class="delete-button" (click)="deleteEmployee(employee.id)">
-                  <span class="material-icons">delete</span>
-                </div> -->
+           
               </div>
-        </div>
+        </div> -->
       
       </div>
     </ng-template>

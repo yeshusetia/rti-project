@@ -6,6 +6,30 @@
 
 }
 
+
+
+.employee-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  border-bottom: 0.5px solid #ccc;
+  padding: 16px;
+  transition: transform 0.3s ease-out; 
+  will-change: transform;
+}
+
+.employee-info {
+  flex: 1;
+  
+}
+
+.employee-item.swiped {
+  transform: translateX(-100%); 
+  opacity: 0;
+}
+
 .employee-list
 {
   height: 100%;
@@ -27,16 +51,6 @@
   align-items: center;
 }
 
-.employee-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 12px;
-  border-bottom: 0.5px solid #E0e0e0;
-  // position: relative;
-  // overflow: hidden;
-}
 
 .employee-info {
   flex: 1;
