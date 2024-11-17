@@ -91,8 +91,8 @@ export class EmployeeAddEditComponent {
       id: this.employeeDetail()?.id || Date.now(), 
       name: this.employeeName(),
       role: this.selectedRole(),
-      startDate: 'yeshu',
-      endDate: '',
+      startDate: '946684800000',
+      endDate: Math.random() < 0.5 ? '' : '1700307323000',
     };
 
     if (this.mode() == 'add') {

@@ -1,8 +1,8 @@
 <div class="employee-list-container">
   
     <!-- If the employee list is empty -->
-    <div *ngIf="employees.length === 0; else employeeList" class="employee-list-body" >
-    <div class="wrapper-no-record">
+    <div *ngIf="renderedEmployees[0].employees.length ==0 && renderedEmployees[1].employees.length == 0 ; else employeeList" class="employee-list-body">    <div class="wrapper-no-record">
+
       <div class="no-records-container">
         <img src="assets/images/empty-list.svg" alt="No Records" class="no-records-image" />
       </div>
@@ -13,12 +13,14 @@
     <ng-template #employeeList>
       <div class="employee-list">
 
-        <div class="current-employees">
+        <ng-container *ngFor="let employeeCategory of renderedEmployees">
+        <div *ngIf="employeeCategory.employees.length" class="current-employees">
             <div class="employee-heading">
-                <span>Current employees</span>
+                <span>{{employeeCategory.heading}}</span>
             </div>
+            
             <div
-            *ngFor="let employee of employees"
+            *ngFor="let employee of employeeCategory.employees"
             (click)="navigateToEditEmployee(employee)"
             class="employee-item"
             (touchstart)="onTouchStart($event)"
@@ -29,29 +31,15 @@
             <div class="employee-info">
               <h3>{{ employee.name }}</h3>
               <p>{{ employee.role.label }}</p>
-              <p>
-                {{ employee.startDate }} - {{ employee.endDate }}
+              <p *ngIf="employee.endDate == ''"> From {{ employee.startDate | date:'d MMM, y' }} </p>
+              <p *ngIf="employee.endDate != ''">
+                {{ employee.startDate | date:'d MMM, y' }} - {{ employee.endDate | date:'d MMM, y' }}
               </p>
             </div>
           </div>
         </div>
+      </ng-container>
 
-        <!-- <div class="previous-employees">
-            <div class="employee-heading">
-                <span>Previous employees</span>
-            </div>
-            <div *ngFor="let employee of employees" class="employee-item" (swipeleft)="deleteEmployee(employee.id)">
-                <div class="employee-info">
-                  <h3>{{ employee.name }}</h3>
-                  <p>{{ employee.role.label }}</p>
-                  <p>
-                    {{ employee.startDate  }} - 
-                    {{ employee.endDate }}
-                  </p>
-                </div>
-           
-              </div>
-        </div> -->
       
       </div>
     </ng-template>

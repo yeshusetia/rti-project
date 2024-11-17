@@ -12,19 +12,47 @@ import { CommonModule } from '@angular/common';
 })
 export class EmployeeListComponent implements OnInit {
   employees: any[] = [];
+  renderedEmployees:any = [
+    {
+      heading : 'Current employees',
+      employees:[]
+    },
+    {
+      heading : 'Previous employees',
+      employees:[]
+    },
+  ]
   private touchStartX: number = 0;
   private currentEmployee: any = null;
-  private threshold: number = 50; // Minimum swipe distance to trigger action
+  private threshold: number = 50; 
   constructor(private router: Router,private indexedDBService: IndexeddbService) {}
 
   async ngOnInit() {
-    this.employees = [];
+    this.renderedEmployees[0].employees=[]
+    this.renderedEmployees[1].employees=[]
     await this.loadEmployees();
   }
 
   async loadEmployees() {
+    this.renderedEmployees[0].employees=[]
+    this.renderedEmployees[1].employees=[]
     try {
-      this.employees = await this.indexedDBService.getEmployees();
+        let employees = await this.indexedDBService.getEmployees();
+         employees.forEach((employee:any)=>
+      {
+        employee.translateX = 0; 
+        if(employee.endDate == '')
+        {
+          this.renderedEmployees[0].employees.push(employee)
+        }
+        else
+        {
+          this.renderedEmployees[1].employees.push(employee)
+        }
+      })
+
+      console.log('rendered',this.renderedEmployees)
+
     } catch (error) {
       console.error('Error fetching employees:', error);
     }
@@ -33,7 +61,9 @@ export class EmployeeListComponent implements OnInit {
   async deleteEmployee(id: number) {
     try {
       await this.indexedDBService.deleteEmployee(id);
-      this.employees = await this.indexedDBService.getEmployees();
+      this.renderedEmployees[0].employees=[]
+      this.renderedEmployees[1].employees=[]
+      await this.loadEmployees();
     } catch (error) {
       console.error('Error deleting employee:', error);
     }
@@ -62,22 +92,24 @@ export class EmployeeListComponent implements OnInit {
     const touchCurrentX = event.touches[0].clientX;
     const swipeDistance = touchCurrentX - this.touchStartX;
 
-    // Limit swipe to left only (negative values)
+   
     if (swipeDistance < 0) {
-      employee.translateX = swipeDistance; // Update the translateX value dynamically
-      this.currentEmployee = employee; // Track the swiped employee
+      employee.translateX = swipeDistance; 
+      this.currentEmployee = employee;
     }
   }
 
   onTouchEnd(employee: any) {
-    const threshold = -100; 
+    const threshold = -250; 
 
+    console.log("threshold",threshold,employee.translateX )
     if (employee.translateX < threshold) {
-      // Swipe is successful, delete the employee
+      
       this.deleteEmployee(employee.id);
     } else {
-      // Reset translateX if swipe is incomplete
+      
       employee.translateX = 0;
+      employee.transition = 'transform 0.3s ease-out';
     }
 
     this.currentEmployee = null; // Clear the current swiped employee
