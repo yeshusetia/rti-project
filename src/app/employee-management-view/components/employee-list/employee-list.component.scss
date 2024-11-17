@@ -6,41 +6,76 @@
 
 }
 
+.employee-item-wrapper {
+  position: relative;
+  //overflow: hidden;
+}
 
+/* Red background with delete icon */
+.delete-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #F34642; /* Red background */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  z-index: 1;
+  padding-right: 16px;
+}
 
+/* Delete icon */
+.delete-icon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* Ensure white icon on red */
+}
+
+/* Swipable employee item */
 .employee-item {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  z-index: 2; /* Ensure it stays above the delete background */
   background-color: white;
+  display: flex;
   border-bottom: 0.5px solid #ccc;
+  align-items: center;
   padding: 16px;
-  transition: transform 0.3s ease-out; 
+  transition: transform 0.3s ease-out; /* Smooth transition when reset */
   will-change: transform;
 }
 
-.employee-info {
-  flex: 1;
-  
-}
-
-.employee-item.swiped {
-  transform: translateX(-100%); 
-  opacity: 0;
-}
-
-.employee-list
+/* Employee info text */
+.employee-info
 {
-  height: 100%;
+  display: flex;
+  flex-direction:column ;
+  gap: 8px;
+  h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+    flex: 1;
+  }
+  p:first-of-type {
+    margin: 0;
+    font-size: 16px; 
+    font-weight: 400;
+    color: #949C9E;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: #949C9E;
+  }
 }
 
 .employee-list-body {
   width: 100%;
   height: 100%;
-  // flex: 1;
-  // padding: 16px;
 }
+
 
 .wrapper-no-record
 {
@@ -50,24 +85,6 @@
   justify-content: center;
   align-items: center;
 }
-
-
-.employee-info {
-  flex: 1;
-}
-
-h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: bold;
-}
-
-p {
-  margin: 4px 0;
-  font-size: 14px;
-  color: #757575;
-}
-
 .delete-button {
   background-color: #f44336;
   color: white;

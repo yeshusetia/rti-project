@@ -1,52 +1,60 @@
 <div class="employee-list-container">
-  
-    <!-- If the employee list is empty -->
-    <div *ngIf="renderedEmployees[0].employees.length ==0 && renderedEmployees[1].employees.length == 0 ; else employeeList" class="employee-list-body">    <div class="wrapper-no-record">
-
+  <!-- If the employee list is empty -->
+  <div *ngIf="renderedEmployees[0].employees.length == 0 && renderedEmployees[1].employees.length == 0; else employeeList" class="employee-list-body">
+    <div class="wrapper-no-record">
       <div class="no-records-container">
         <img src="assets/images/empty-list.svg" alt="No Records" class="no-records-image" />
       </div>
     </div>
-    </div>
-  
-    <!-- If the employee list is not empty -->
-    <ng-template #employeeList>
-      <div class="employee-list">
+  </div>
 
-        <ng-container *ngFor="let employeeCategory of renderedEmployees">
+
+  <!-- If the employee list is not empty -->
+  <ng-template #employeeList>
+    <div class="employee-list">
+      <ng-container *ngFor="let employeeCategory of renderedEmployees">
         <div *ngIf="employeeCategory.employees.length" class="current-employees">
-            <div class="employee-heading">
-                <span>{{employeeCategory.heading}}</span>
-            </div>
-            
-            <div
+          <div class="employee-heading">
+            <span>{{ employeeCategory.heading }}</span>
+          </div>
+
+          <!-- Employee List Items -->
+          <div
             *ngFor="let employee of employeeCategory.employees"
-            (click)="navigateToEditEmployee(employee)"
-            class="employee-item"
-            (touchstart)="onTouchStart($event)"
-            (touchmove)="onTouchMove($event, employee)"
-            (touchend)="onTouchEnd(employee)"
-            [style.transform]="employee.translateX ? 'translateX(' + employee.translateX + 'px)' : 'none'"
+            class="employee-item-wrapper"
           >
-            <div class="employee-info">
-              <h3>{{ employee.name }}</h3>
-              <p>{{ employee.role.label }}</p>
-              <p *ngIf="employee.endDate == ''"> From {{ employee.startDate | date:'d MMM, y' }} </p>
-              <p *ngIf="employee.endDate != ''">
-                {{ employee.startDate | date:'d MMM, y' }} - {{ employee.endDate | date:'d MMM, y' }}
-              </p>
+            <!-- Red Background and Delete Icon -->
+            <div class="delete-bg">
+              <img src="assets/icons/bin.svg" alt="Delete" class="delete-icon" />
+            </div>
+
+            <!-- Swipable Employee Item -->
+            <div
+            (click)="navigateToEditEmployee(employee)"
+              class="employee-item"
+              (touchstart)="onTouchStart($event)"
+              (touchmove)="onTouchMove($event, employee)"
+              (touchend)="onTouchEnd(employee)"
+              [style.transform]="'translateX(' + (employee.translateX || 0) + 'px)'"
+              [style.transition]="employee.transition || 'none'"
+            >
+              <div class="employee-info">
+                <h3>{{ employee.name }}</h3>
+                <p>{{ employee.role.label }}</p>
+                <p *ngIf="employee.endDate == ''"> From {{ employee.startDate | date:'d MMM, y' }} </p>
+                <p *ngIf="employee.endDate != ''">
+                  {{ employee.startDate | date:'d MMM, y' }} - {{ employee.endDate | date:'d MMM, y' }}
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </ng-container>
+    </div>
+  </ng-template>
 
-      
-      </div>
-    </ng-template>
-  
-    <!-- Add Employee Button -->
-    <button (click)="navigateToAddEmployee()" class="add-button" aria-label="Add Employee">
-      <span>+</span>
-    </button>
-  </div>
-  
+  <!-- Add Employee Button -->
+  <button (click)="navigateToAddEmployee()" class="add-button" aria-label="Add Employee">
+    <span>+</span>
+  </button>
+</div>

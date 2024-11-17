@@ -23,8 +23,7 @@ export class EmployeeListComponent implements OnInit {
     },
   ]
   private touchStartX: number = 0;
-  private currentEmployee: any = null;
-  private threshold: number = 50; 
+  
   constructor(private router: Router,private indexedDBService: IndexeddbService) {}
 
   async ngOnInit() {
@@ -83,37 +82,33 @@ export class EmployeeListComponent implements OnInit {
 
 
   onTouchStart(event: TouchEvent) {
-    this.touchStartX = event.touches[0].clientX;
+    this.touchStartX = event.touches[0].clientX; // Track the initial touch position
   }
-
- 
-
+  
   onTouchMove(event: TouchEvent, employee: any) {
     const touchCurrentX = event.touches[0].clientX;
     const swipeDistance = touchCurrentX - this.touchStartX;
-
-   
+  
+    // Allow left swipe only
     if (swipeDistance < 0) {
-      employee.translateX = swipeDistance; 
-      this.currentEmployee = employee;
+      employee.translateX = swipeDistance; // Dynamically update the item's transform
+      employee.transition = 'none'; // Disable transition during swiping
     }
   }
-
+  
   onTouchEnd(employee: any) {
-    const threshold = -250; 
-
-    console.log("threshold",threshold,employee.translateX )
+    const threshold = -250; // Set the threshold for successful swipe
+  
     if (employee.translateX < threshold) {
-      
-      this.deleteEmployee(employee.id);
+      // Swipe successful: Delete employee
+      console.log('Swipe successful, deleting employee:', employee.id);
+      this.deleteEmployee(employee.id); // Call delete logic
     } else {
-      
+      // Reset swipe position
       employee.translateX = 0;
-      employee.transition = 'transform 0.3s ease-out';
+      employee.transition = 'transform 0.3s ease-out'; // Smoothly reset to original position
     }
-
-    this.currentEmployee = null; // Clear the current swiped employee
   }
-
+  
 }
 
