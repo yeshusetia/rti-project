@@ -24,7 +24,8 @@
       text-align: center;
   
       &:hover {
-        background: #d7eaff;
+        background: #1DA1F2;
+        color: white;
       }
     }
   }
@@ -72,6 +73,18 @@
         border-radius: 60px;
         color: white;
       }
+
+      .predefined-buttons button.active {
+        background: #1da1f2;
+        color: white;
+      }
+      
+      /* Highlight today's date */
+      .day-cell.today {
+        border: 2px solid #1da1f2;
+        border-radius: 50%;
+      }
+      
 
       &:hover {
         background: #eaf4fe;

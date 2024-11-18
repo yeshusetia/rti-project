@@ -1,15 +1,39 @@
 <div class="date-picker-container">
     <!-- Predefined Date Buttons -->
     <div class="predefined-buttons">
-      <button type="button" (click)="setToday()">Today</button>
-      <button type="button" (click)="setNextMonday()">Next Monday</button>
-      <button type="button" (click)="setNextTuesday()">Next Tuesday</button>
-      <button type="button" (click)="setAfterOneWeek()">After 1 Week</button>
+      <button
+        type="button"
+        [class.active]="activeButton === 'Today'"
+        (click)="setToday()"
+      >
+        Today
+      </button>
+      <button
+        type="button"
+        [class.active]="activeButton === 'Next Monday'"
+        (click)="setNextMonday()"
+      >
+        Next Monday
+      </button>
+      <button
+        type="button"
+        [class.active]="activeButton === 'Next Tuesday'"
+        (click)="setNextTuesday()"
+      >
+        Next Tuesday
+      </button>
+      <button
+        type="button"
+        [class.active]="activeButton === 'After 1 Week'"
+        (click)="setAfterOneWeek()"
+      >
+        After 1 Week
+      </button>
     </div>
   
     <!-- Calendar Header -->
     <div class="calendar-header">
-      <img src="assets/icons/date-picker-left.svg" (click)="changeMonth(-1)"/>
+      <img src="assets/icons/date-picker-left.svg" (click)="changeMonth(-1)" />
       <span>{{ visibleMonth | date: 'MMMM y' }}</span>
       <img src="assets/icons/date-picker-right.svg" (click)="changeMonth(1)" />
     </div>
@@ -22,6 +46,7 @@
       <div
         *ngFor="let day of getCalendarDays()"
         class="day-cell"
+        [class.today]="isToday(day)"
         [class.selected]="
           day.getDate() === selectedDate.getDate() &&
           day.getMonth() === selectedDate.getMonth() &&
@@ -40,9 +65,9 @@
         {{ selectedDate | date: 'd MMM y' }}
       </span>
       <div>
-      <button (click)="cancel()">Cancel</button>
-      <button type="button" (click)="saveSelection()">Save</button>
-    </div>
+        <button (click)="cancel()">Cancel</button>
+        <button type="button" (click)="saveSelection()">Save</button>
+      </div>
     </div>
   </div>
   
