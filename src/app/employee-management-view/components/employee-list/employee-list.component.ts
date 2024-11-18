@@ -40,7 +40,7 @@ export class EmployeeListComponent implements OnInit {
          employees.forEach((employee:any)=>
       {
         employee.translateX = 0; 
-        if(employee.endDate == '')
+        if(employee.endDate == null)
         {
           this.renderedEmployees[0].employees.push(employee)
         }
@@ -97,7 +97,7 @@ export class EmployeeListComponent implements OnInit {
   }
   
   onTouchEnd(employee: any) {
-    const threshold = -250; // Set the threshold for successful swipe
+    const threshold = -150; // Set the threshold for successful swipe
   
     if (employee.translateX < threshold) {
       // Swipe successful: Delete employee

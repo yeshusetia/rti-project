@@ -41,8 +41,8 @@
               <div class="employee-info">
                 <h3>{{ employee.name }}</h3>
                 <p>{{ employee.role.label }}</p>
-                <p *ngIf="employee.endDate == ''"> From {{ employee.startDate | date:'d MMM, y' }} </p>
-                <p *ngIf="employee.endDate != ''">
+                <p *ngIf="employee.endDate == null"> From {{ employee.startDate | date:'d MMM, y' }} </p>
+                <p *ngIf="employee.endDate != null">
                   {{ employee.startDate | date:'d MMM, y' }} - {{ employee.endDate | date:'d MMM, y' }}
                 </p>
               </div>

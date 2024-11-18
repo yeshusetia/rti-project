@@ -22,7 +22,10 @@
       font-size: 14px;
       cursor: pointer;
       text-align: center;
-  
+      &.active {
+        background: #1da1f2;
+        color: white;
+      }
       &:hover {
         background: #1DA1F2;
         color: white;
@@ -74,10 +77,6 @@
         color: white;
       }
 
-      .predefined-buttons button.active {
-        background: #1da1f2;
-        color: white;
-      }
       
       &.today {
         border: 1px solid #1da1f2;

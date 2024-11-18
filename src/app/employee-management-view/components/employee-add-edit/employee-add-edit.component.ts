@@ -18,13 +18,14 @@ export class EmployeeAddEditComponent {
 
   }
   today = new Date();
-  initialDate = new Date();
+  initialDate1 = new Date();
+  initialDate2 = null;
   mode = signal<'add' | 'edit'>('add');
   employeeDetail = signal<any>({});
   selectedRole = signal<any>({label:'',value:''});
   employeeName = signal<any>('');
-  selectedStartDate: Date | null = null; // Store the selected date
-  selectedEndDate: Date | null = null; // Store the selected date
+  selectedStartDate: Date | null = new Date(); 
+  selectedEndDate: Date | null = null; 
   showDatePickerStart = false; 
   showDatePickerEnd = false; 
   isFormValid = computed(() => {
@@ -87,6 +88,7 @@ export class EmployeeAddEditComponent {
   }
 
   onDateSelectedEnd(date: Date) {
+
     this.selectedEndDate = date; // Update the selected date
     this.closeDatePicker('end'); // Close the date picker after selection
   }
@@ -102,8 +104,10 @@ export class EmployeeAddEditComponent {
           this.roles.find((role: any) => role.value === employee.role?.value) || { label: '', value: '' }
         
         );
-        console.log('Selected role set to:', this.selectedRole());
-        console.log('Employee loaded for edit:', employee);
+        this.selectedStartDate = employee.startDate
+        this.selectedEndDate = employee.endDate
+        this.initialDate1 = employee.startDate
+        this.initialDate2 = employee.endDate
       } else {
         console.error('Employee not found');
       }
@@ -127,12 +131,12 @@ export class EmployeeAddEditComponent {
 
  saveEmployee() {
   if (this.isFormValid()) {
-    const employee = {
+    const employee:any = {
       id: this.employeeDetail()?.id || Date.now(), 
       name: this.employeeName(),
       role: this.selectedRole(),
-      startDate: '946684800000',
-      endDate: Math.random() < 0.5 ? '' : '1700307323000',
+      startDate: this.selectedStartDate,
+      endDate: this.selectedEndDate,
     };
 
     if (this.mode() == 'add') {

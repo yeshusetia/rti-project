@@ -32,18 +32,25 @@ export class DatePickerComponent {
     this.initializeDatePicker()
   }
 
-  initializeDatePicker()
-  {
+  initializeDatePicker() {
     if (this.selectedDate) {
+    
       this.visibleMonth = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1);
       if (this.isToday(this.selectedDate)) {
-        this.activeButton = 'Today';
+        this.activeButton = 'Today'; 
+      } else {
+        this.activeButton = null; 
       }
+    } else if (this.selectedDate === null) {
+
+      const today = new Date();
+      this.visibleMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+      this.activeButton = 'No Date'; 
     } else {
-      // Default to today
+   
       this.selectedDate = new Date();
       this.visibleMonth = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1);
-      this.activeButton = 'Today';
+      this.activeButton = 'Today'; 
     }
   }
 
@@ -78,7 +85,7 @@ export class DatePickerComponent {
 
   setNoDate()
   {
-
+    this.selectedDate = null;
   }
 
   // Set "Today" and update the visible month

@@ -4,15 +4,14 @@
         <button
         *ngIf="disablePastDates"
         type="button"
-        [class.active]="activeButton === 'Today'"
+        [class.active]="activeButton == 'No Date'"
         (click)="setNoDate()"
       >
-        No Dates
+        No Date
       </button>
-
       <button
         type="button"
-        [class.active]="activeButton === 'Today'"
+        [class.active]="activeButton == 'Today'"
         (click)="setToday()"
       >
         Today
@@ -20,14 +19,14 @@
       <button
         type="button"
         *ngIf="!disablePastDates"
-        [class.active]="activeButton === 'Next Monday'"
+        [class.active]="activeButton == 'Next Monday'"
         (click)="setNextMonday()"
       >
         Next Monday
       </button>
       <button
         type="button"
-        [class.active]="activeButton === 'Next Tuesday'"
+        [class.active]="activeButton == 'Next Tuesday'"
         *ngIf="!disablePastDates"
         (click)="setNextTuesday()"
       >
