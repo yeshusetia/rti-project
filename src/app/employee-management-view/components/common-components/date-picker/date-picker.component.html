@@ -2,6 +2,7 @@
     <!-- Predefined Date Buttons -->
     <div class="predefined-buttons">
         <button
+        *ngIf="disablePastDates"
         type="button"
         [class.active]="activeButton === 'Today'"
         (click)="setNoDate()"

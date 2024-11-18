@@ -28,26 +28,36 @@
   
       <div class="form-group date-picker-group">
      
-        <div class="date-input" (click)="openDatePicker()">
+        <div class="date-input"  (click)="openDatePicker('start')" >
           <img src="assets/icons/date-picker.svg" alt="Calendar" />
-          <span>{{ selectedDate ? (selectedDate | date: 'd MMM y') : 'No Date' }}</span>
+          <span>{{ selectedStartDate ? (selectedStartDate | date: 'd MMM y') : 'No Date' }}</span>
+        </div>
+        <div *ngIf="showDatePickerStart" class="date-picker-overlay">
+          <div class="date-picker-wrapper">
+            <app-date-picker
+               [disablePastDates]="false"
+               [selectedDate]="initialDate"
+              (dateSelected)="onDateSelectedStart($event)"
+              (cancelSelection)="closeDatePicker('start')"
+            ></app-date-picker>
+          </div>
         </div>
 
         <div><img src="assets/icons/right-arrow.svg" alt=""></div>
 
-        <div class="date-input" (click)="openDatePicker()">
+        <div class="date-input" (click)="openDatePicker('end')">
           <img src="assets/icons/date-picker.svg" alt="Calendar" />
-          <span>{{ selectedDate ? (selectedDate | date: 'd MMM y') : 'No Date' }}</span>
+          <span>{{ selectedEndDate ? (selectedEndDate | date: 'd MMM y') : 'No Date' }}</span>
         </div>
       
         <!-- Overlay Date Picker -->
-        <div *ngIf="showDatePicker" class="date-picker-overlay">
+        <div *ngIf="showDatePickerEnd" class="date-picker-overlay">
           <div class="date-picker-wrapper">
             <app-date-picker
                [disablePastDates]="true"
                [selectedDate]="initialDate"
-              (dateSelected)="onDateSelected($event)"
-              (cancelSelection)="closeDatePicker()"
+              (dateSelected)="onDateSelectedEnd($event)"
+              (cancelSelection)="closeDatePicker('end')"
             ></app-date-picker>
           </div>
         </div>

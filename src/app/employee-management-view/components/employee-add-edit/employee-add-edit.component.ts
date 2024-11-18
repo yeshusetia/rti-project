@@ -23,8 +23,10 @@ export class EmployeeAddEditComponent {
   employeeDetail = signal<any>({});
   selectedRole = signal<any>({label:'',value:''});
   employeeName = signal<any>('');
-  selectedDate: Date | null = null; // Store the selected date
-  showDatePicker = false; 
+  selectedStartDate: Date | null = null; // Store the selected date
+  selectedEndDate: Date | null = null; // Store the selected date
+  showDatePickerStart = false; 
+  showDatePickerEnd = false; 
   isFormValid = computed(() => {
     return this.employeeName().trim() !== '' && !!this.selectedRole()?.value;
   });
@@ -55,19 +57,39 @@ export class EmployeeAddEditComponent {
     })
   }
 
-  openDatePicker() {
-    this.showDatePicker = true; // Show the date picker
+  openDatePicker(params:any) {
+    if(params == 'start')
+    {
+      this.showDatePickerStart = true; // Show the date picker
+    }
+    else if(params == 'end')
+    {
+      this.showDatePickerEnd = true
+    }
+  
   }
 
-  closeDatePicker() {
-    this.showDatePicker = false; // Hide the date picker
+  closeDatePicker(param:any) {
+    if(param == 'start')
+    {
+      this.showDatePickerStart = false; // Hide the date picker
+    }
+    else if(param == 'end')
+    {
+      this.showDatePickerEnd = false; 
+    }
+  
   }
 
-  onDateSelected(date: Date) {
-    this.selectedDate = date; // Update the selected date
-    this.closeDatePicker(); // Close the date picker after selection
+  onDateSelectedStart(date: Date) {
+    this.selectedStartDate = date; // Update the selected date
+    this.closeDatePicker('start'); // Close the date picker after selection
   }
 
+  onDateSelectedEnd(date: Date) {
+    this.selectedEndDate = date; // Update the selected date
+    this.closeDatePicker('end'); // Close the date picker after selection
+  }
 
 
   async loadEmployeeDetails(id: number): Promise<void> {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output,OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,7 +16,7 @@ export class DatePickerComponent {
 
   visibleMonth: Date = new Date(); // Month currently visible in the calendar
   currentDay: Date = new Date(); // Today's date
-  activeButton: string | null = null; // Tracks active button (predefined dates)
+  activeButton: string | null = 'Today'; // Tracks active button (predefined dates)
 
   currentMonthStart: Date; // Start of the current month
 
@@ -27,7 +27,13 @@ export class DatePickerComponent {
   }
 
   ngOnInit() {
-    // Initialize the calendar
+
+    console.log('ngOnInit called in DatePickerComponent');
+    this.initializeDatePicker()
+  }
+
+  initializeDatePicker()
+  {
     if (this.selectedDate) {
       this.visibleMonth = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1);
       if (this.isToday(this.selectedDate)) {
@@ -40,7 +46,6 @@ export class DatePickerComponent {
       this.activeButton = 'Today';
     }
   }
-  
 
   // Generate 42 calendar days (6 rows x 7 columns)
   getCalendarDays(): Date[] {
