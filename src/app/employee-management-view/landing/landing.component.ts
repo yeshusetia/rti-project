@@ -1,83 +1,78 @@
-import { Component,computed,signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { EmployeeListComponent } from '../components/employee-list/employee-list.component';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { filter } from 'rxjs';
-import { CommonModule } from '@angular/common'; 
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { IndexeddbService } from '../services/indexeddb.service';
+
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [EmployeeListComponent,RouterOutlet,CommonModule],
+  imports: [EmployeeListComponent, RouterOutlet, CommonModule],
   templateUrl: './landing.component.html',
-  styleUrl: './landing.component.scss'
+  styleUrls: ['./landing.component.scss']
 })
 export class LandingComponent {
 
   currentRoute = signal('');
   queryParams = signal<any>({});
-  employeeId = signal('')
+  employeeId: any = '';
   mode = signal<'add' | 'edit'>('add');
   employeeDetail = signal<any>({});
-  headerTitle = computed(
-    () => {
-      const route = this.currentRoute();
-      const mode = this.queryParams()['mode'];
-  
-    //  if (route.includes('add-edit')) {
-        if (mode == 'add') {
-          return 'Add Employee';
-        } else if (mode == 'edit') {
-        
-          return 'Edit Employee';
-        }
-        else
-        {
-          return 'Employee List';
-        }
-    //  }
-  
-   
-    }// Enable signal writes inside this computed
-  );
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) 
-  {
-    
+  // headerTitle will depend on queryParams and currentRoute
+  headerTitle = computed(() => {
+    const route = this.currentRoute();
+    const mode = this.queryParams()['mode'];
+
+    if (mode === 'add') {
+      return 'Add Employee';
+    } else if (mode === 'edit') {
+      return 'Edit Employee';
+    } else {
+      return 'Employee List';
+    }
+  });
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private indexedDBService: IndexeddbService
+  ) {
     this.currentRoute.set(this.router.url);
+
+    // Update queryParams signal whenever the route changes
     this.activatedRoute.queryParams.subscribe((params) => {
-      this.queryParams.set(params); 
+      this.queryParams.set(params);
+      this.employeeId = params['id'];
     });
   }
-  
-  ngOnInit() 
-  {
-  
+
+  ngOnInit() {
+    // Any initialization logic can go here
   }
 
-
-  deletEmployee()
-  {
-
+  async deleteEmployee() {
+    try {
+      await this.indexedDBService.deleteEmployee(Number(this.employeeId));
+      await this.navigateToListEmployee();
+      await this.snackBar.open('Employee Deleted successfully!', 'Close', {
+        duration: 2000,
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar'],
+      });
+    } catch (error) {
+      console.error('Error deleting employee:', error);
+    }
   }
-  // async loadEmployeeDetails(id: number): Promise<void> {
-  //   try {
-  //     const employee: any = await this.indexedDBService.getEmployeeById(Number(id)); 
-  //     if (employee) {
-  //       this.employeeDetail.set(employee)
-  //       this.employeeName.set(employee.name);
-  //       this.selectedRole.set(
-  //         this.roles.find((role: any) => role.value === employee.role?.value) || { label: '', value: '' }
-        
-  //       );
-  //       console.log('Selected role set to:', this.selectedRole());
-  //       console.log('Employee loaded for edit:', employee);
-  //     } else {
-  //       console.error('Employee not found');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error loading employee details:', error);
-  //   }
-  // }
 
- 
+  navigateToListEmployee() {
+    this.router.navigate(['/']).then(success => {
+      console.log('Navigation successful:', success);
+    }).catch(error => {
+      console.error('Navigation error:', error);
+    });
+  }
 }
-

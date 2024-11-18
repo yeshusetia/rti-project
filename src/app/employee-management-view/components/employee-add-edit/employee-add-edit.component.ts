@@ -18,8 +18,7 @@ export class EmployeeAddEditComponent {
 
   }
   today = new Date();
-  initialDate1 = new Date();
-  initialDate2 = null;
+
   mode = signal<'add' | 'edit'>('add');
   employeeDetail = signal<any>({});
   selectedRole = signal<any>({label:'',value:''});
@@ -106,8 +105,6 @@ export class EmployeeAddEditComponent {
         );
         this.selectedStartDate = employee.startDate
         this.selectedEndDate = employee.endDate
-        this.initialDate1 = employee.startDate
-        this.initialDate2 = employee.endDate
       } else {
         console.error('Employee not found');
       }

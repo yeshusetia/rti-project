@@ -1,7 +1,7 @@
 <div class="main">
     <div class="employee-list-header">
         {{ headerTitle() }}
-        <img *ngIf="this.employeeId() != '' " class="delete-icon" src="assets/icons/bin.svg" alt="">
+        <img (click)="deleteEmployee()" *ngIf="headerTitle() == 'Edit Employee' " class="delete-icon" src="assets/icons/bin.svg" alt="">
     </div>
     <div class="layouts">
     <router-outlet></router-outlet>
