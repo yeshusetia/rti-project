@@ -26,10 +26,10 @@
         background: #1da1f2;
         color: white;
       }
-      &:hover {
-        background: #1DA1F2;
-        color: white;
-      }
+      // &:hover {
+      //   background: #1DA1F2;
+      //   color: white;
+      // }
     }
   }
 
@@ -73,7 +73,7 @@
 
       &.selected {
         background: #1DA1F2;
-        border-radius: 60px;
+        border-radius: 50%;
         color: white;
       }
 
