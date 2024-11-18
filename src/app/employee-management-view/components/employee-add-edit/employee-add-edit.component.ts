@@ -17,6 +17,8 @@ export class EmployeeAddEditComponent {
   {
 
   }
+  today = new Date();
+  initialDate = new Date();
   mode = signal<'add' | 'edit'>('add');
   employeeDetail = signal<any>({});
   selectedRole = signal<any>({label:'',value:''});

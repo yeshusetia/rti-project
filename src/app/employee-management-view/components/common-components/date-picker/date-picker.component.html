@@ -65,9 +65,9 @@
         [class.today]="isToday(day)"
         [class.disabled]="isDisabled(day)"
         [class.selected]="
-          day.getDate() === selectedDate.getDate() &&
-          day.getMonth() === selectedDate.getMonth() &&
-          day.getFullYear() === selectedDate.getFullYear()
+          day.getDate() === selectedDate?.getDate() &&
+          day.getMonth() === selectedDate?.getMonth() &&
+          day.getFullYear() === selectedDate?.getFullYear()
         "
         (click)="selectDate(day.getDate())"
       >

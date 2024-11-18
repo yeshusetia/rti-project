@@ -45,6 +45,7 @@
           <div class="date-picker-wrapper">
             <app-date-picker
                [disablePastDates]="true"
+               [selectedDate]="initialDate"
               (dateSelected)="onDateSelected($event)"
               (cancelSelection)="closeDatePicker()"
             ></app-date-picker>

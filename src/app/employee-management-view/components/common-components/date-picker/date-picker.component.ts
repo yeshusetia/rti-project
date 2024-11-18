@@ -10,22 +10,37 @@ import { CommonModule } from '@angular/common';
 })
 export class DatePickerComponent {
   @Input() disablePastDates = false; // Disable past dates
+  @Input() selectedDate: Date | null = null; // Allow setting a selected date via input
   @Output() dateSelected = new EventEmitter<Date>(); // Emit selected date
   @Output() cancelSelection = new EventEmitter<void>(); // Emit cancel event
 
-  selectedDate: any = new Date(); // Currently selected date
   visibleMonth: Date = new Date(); // Month currently visible in the calendar
   currentDay: Date = new Date(); // Today's date
-  activeButton: string | null = 'Today'; // Tracks active button (predefined dates)
+  activeButton: string | null = null; // Tracks active button (predefined dates)
 
   currentMonthStart: Date; // Start of the current month
 
   constructor() {
-  
+    // Ensure currentDay is set to midnight
     this.currentDay.setHours(0, 0, 0, 0);
     this.currentMonthStart = new Date(this.currentDay.getFullYear(), this.currentDay.getMonth(), 1);
   }
 
+  ngOnInit() {
+    // Initialize the calendar
+    if (this.selectedDate) {
+      this.visibleMonth = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1);
+      if (this.isToday(this.selectedDate)) {
+        this.activeButton = 'Today';
+      }
+    } else {
+      // Default to today
+      this.selectedDate = new Date();
+      this.visibleMonth = new Date(this.selectedDate.getFullYear(), this.selectedDate.getMonth(), 1);
+      this.activeButton = 'Today';
+    }
+  }
+  
 
   // Generate 42 calendar days (6 rows x 7 columns)
   getCalendarDays(): Date[] {
@@ -58,7 +73,7 @@ export class DatePickerComponent {
 
   setNoDate()
   {
-    
+
   }
 
   // Set "Today" and update the visible month
@@ -111,7 +126,7 @@ export class DatePickerComponent {
     if (this.isDisabled(selectedDay)) return; // Prevent selecting disabled days
     this.selectedDate = selectedDay;
     this.activeButton = null; 
-  //  this.dateSelected.emit(this.selectedDate); // Emit the selected date
+    //this.dateSelected.emit(this.selectedDate); // Emit the selected date
   }
 
   // Cancel the date selection
@@ -121,7 +136,7 @@ export class DatePickerComponent {
 
   // Save the selected date
   saveSelection() {
-    this.dateSelected.emit(this.selectedDate);
+    this.dateSelected.emit(this.selectedDate!);
   }
 
   // Check if a specific day is today
