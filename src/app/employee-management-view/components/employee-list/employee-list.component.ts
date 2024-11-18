@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IndexeddbService } from '../../services/indexeddb.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-employee-list',
@@ -24,7 +25,7 @@ export class EmployeeListComponent implements OnInit {
   ]
   private touchStartX: number = 0;
   
-  constructor(private router: Router,private indexedDBService: IndexeddbService) {}
+  constructor(private snackBar: MatSnackBar,private router: Router,private indexedDBService: IndexeddbService) {}
 
   async ngOnInit() {
     this.renderedEmployees[0].employees=[]
@@ -63,6 +64,12 @@ export class EmployeeListComponent implements OnInit {
       this.renderedEmployees[0].employees=[]
       this.renderedEmployees[1].employees=[]
       await this.loadEmployees();
+      this.snackBar.open('Employee Deleted successfully!', 'Close', {
+        duration: 2000, 
+        horizontalPosition: 'right',
+        verticalPosition: 'bottom',
+        panelClass: ['success-snackbar'], 
+      });
     } catch (error) {
       console.error('Error deleting employee:', error);
     }
@@ -97,16 +104,16 @@ export class EmployeeListComponent implements OnInit {
   }
   
   onTouchEnd(employee: any) {
-    const threshold = -150; // Set the threshold for successful swipe
+    const threshold = -150; 
   
     if (employee.translateX < threshold) {
-      // Swipe successful: Delete employee
+     
       console.log('Swipe successful, deleting employee:', employee.id);
-      this.deleteEmployee(employee.id); // Call delete logic
+      this.deleteEmployee(employee.id);
     } else {
-      // Reset swipe position
+
       employee.translateX = 0;
-      employee.transition = 'transform 0.3s ease-out'; // Smoothly reset to original position
+      employee.transition = 'transform 0.3s ease-out'; 
     }
   }
   

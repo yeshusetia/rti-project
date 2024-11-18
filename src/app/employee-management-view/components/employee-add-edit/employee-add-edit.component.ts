@@ -142,12 +142,24 @@ export class EmployeeAddEditComponent {
     if (this.mode() == 'add') {
       // Add a new employee
       this.indexedDBService.addEmployee(employee).then(() => {
+        this.snackBar.open('Employee added successfully!', 'Close', {
+          duration: 2000, // Duration in milliseconds
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          panelClass: ['success-snackbar'], // Add a custom class if needed
+        });
         this.navigateToListEmployee();
         console.log('Employee added successfully');
       });
     } else if (this.mode() == 'edit') {
       // Update existing employee
       this.indexedDBService.updateEmployee(employee).then(() => {
+        this.snackBar.open('Employee Updated successfully!', 'Close', {
+          duration: 2000, 
+          horizontalPosition: 'right',
+          verticalPosition: 'bottom',
+          panelClass: ['success-snackbar'], // Add a custom class if needed
+        });
         this.navigateToListEmployee();
         console.log('Employee updated successfully');
       });
