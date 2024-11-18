@@ -1,45 +1,82 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-date-picker',
   standalone: true,
+  imports: [CommonModule],
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.scss'],
 })
 export class DatePickerComponent {
-  selectedDate: string = 'No date'; // Default selected date
-  isDatePickerOpen: boolean = false; // Toggles the visibility of the date picker
+  selectedDate: Date = new Date(); // Holds the selected date
+  visibleMonth: Date = new Date(); // Holds the current visible month
+  @Output() dateSelected = new EventEmitter<Date>(); // Emit the selected date to parent component
+  @Output() cancelSelection = new EventEmitter<void>();
+  // Get an array of dates for the visible month (including leading/trailing days)
+  getCalendarDays(): Date[] {
+    const days: Date[] = [];
+    const firstDayOfMonth = new Date(this.visibleMonth.getFullYear(), this.visibleMonth.getMonth(), 1);
+    const firstDayOfWeek = firstDayOfMonth.getDay(); // Sunday = 0, Monday = 1, etc.
 
-  // Predefined date options
-  quickDates = [
-    { label: 'Today', value: new Date() },
-    { label: 'Next Monday', value: this.getNextDayOfWeek(1) }, // Monday
-    { label: 'Next Tuesday', value: this.getNextDayOfWeek(2) }, // Tuesday
-    { label: 'After 1 week', value: this.addDays(new Date(), 7) },
-  ];
+    // Calculate the total days to show (42 days grid)
+    for (let i = 0; i < 42; i++) {
+      const date = new Date(
+        this.visibleMonth.getFullYear(),
+        this.visibleMonth.getMonth(),
+        i - firstDayOfWeek + 1
+      );
+      days.push(date);
+    }
 
-  // Toggle date picker visibility
-  toggleDatePicker() {
-    this.isDatePickerOpen = !this.isDatePickerOpen;
+    return days;
   }
 
-  // Set a date and close the picker
-  setDate(date: Date) {
-    this.selectedDate = date.toDateString();
-    this.isDatePickerOpen = false;
+  // Predefined date button handlers
+  setToday() {
+    this.selectedDate = new Date();
   }
 
-  // Utility: Get the next specific day of the week
-  private getNextDayOfWeek(dayOfWeek: number): Date {
-    const date = new Date();
-    const diff = (dayOfWeek + 7 - date.getDay()) % 7 || 7; // Ensure we always get a future date
-    return this.addDays(date, diff);
+  setNextMonday() {
+    const today = new Date();
+    const nextMonday = new Date(today);
+    nextMonday.setDate(today.getDate() + ((8 - today.getDay()) % 7 || 7));
+    this.selectedDate = nextMonday;
   }
 
-  // Utility: Add days to a date
-  private addDays(date: Date, days: number): Date {
-    const result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
+  setNextTuesday() {
+    const today = new Date();
+    const nextTuesday = new Date(today);
+    nextTuesday.setDate(today.getDate() + ((9 - today.getDay()) % 7 || 7));
+    this.selectedDate = nextTuesday;
+  }
+
+  setAfterOneWeek() {
+    const today = new Date();
+    const afterOneWeek = new Date(today);
+    afterOneWeek.setDate(today.getDate() + 7);
+    this.selectedDate = afterOneWeek;
+  }
+
+  // Calendar navigation
+  changeMonth(offset: number) {
+    this.visibleMonth.setMonth(this.visibleMonth.getMonth() + offset);
+    this.visibleMonth = new Date(this.visibleMonth); // Update visible month
+  }
+
+  // Select a date
+  selectDate(day: number) {
+    this.selectedDate = new Date(this.visibleMonth.getFullYear(), this.visibleMonth.getMonth(), day);
+  //  this.dateSelected.emit(this.selectedDate); 
+  }
+
+
+  cancel() {
+    this.cancelSelection.emit(); // Emit the cancel event
+  }
+
+  saveSelection() {
+    this.dateSelected.emit(this.selectedDate); // Emit the selected date when Save is clicked
+    console.log('Selected Date:', this.selectedDate);
   }
 }

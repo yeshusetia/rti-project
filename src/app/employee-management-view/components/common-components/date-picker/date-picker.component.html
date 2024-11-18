@@ -1,0 +1,48 @@
+<div class="date-picker-container">
+    <!-- Predefined Date Buttons -->
+    <div class="predefined-buttons">
+      <button type="button" (click)="setToday()">Today</button>
+      <button type="button" (click)="setNextMonday()">Next Monday</button>
+      <button type="button" (click)="setNextTuesday()">Next Tuesday</button>
+      <button type="button" (click)="setAfterOneWeek()">After 1 Week</button>
+    </div>
+  
+    <!-- Calendar Header -->
+    <div class="calendar-header">
+      <img src="assets/icons/date-picker-left.svg" (click)="changeMonth(-1)"/>
+      <span>{{ visibleMonth | date: 'MMMM y' }}</span>
+      <img src="assets/icons/date-picker-right.svg" (click)="changeMonth(1)" />
+    </div>
+  
+    <!-- Calendar Days -->
+    <div class="calendar-days">
+      <div class="day-label" *ngFor="let day of ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']">
+        {{ day }}
+      </div>
+      <div
+        *ngFor="let day of getCalendarDays()"
+        class="day-cell"
+        [class.selected]="
+          day.getDate() === selectedDate.getDate() &&
+          day.getMonth() === selectedDate.getMonth() &&
+          day.getFullYear() === selectedDate.getFullYear()
+        "
+        (click)="selectDate(day.getDate())"
+      >
+        {{ day.getMonth() === visibleMonth.getMonth() ? day.getDate() : '' }}
+      </div>
+    </div>
+  
+    <!-- Footer -->
+    <div class="date-picker-footer">
+      <span class="selected-date">
+        <img src="assets/icons/date-picker.svg" alt="Calendar" />
+        {{ selectedDate | date: 'd MMM y' }}
+      </span>
+      <div>
+      <button (click)="cancel()">Cancel</button>
+      <button type="button" (click)="saveSelection()">Save</button>
+    </div>
+    </div>
+  </div>
+  

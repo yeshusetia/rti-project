@@ -21,7 +21,8 @@ export class EmployeeAddEditComponent {
   employeeDetail = signal<any>({});
   selectedRole = signal<any>({label:'',value:''});
   employeeName = signal<any>('');
-
+  selectedDate: Date | null = null; // Store the selected date
+  showDatePicker = false; 
   isFormValid = computed(() => {
     return this.employeeName().trim() !== '' && !!this.selectedRole()?.value;
   });
@@ -51,6 +52,21 @@ export class EmployeeAddEditComponent {
       }
     })
   }
+
+  openDatePicker() {
+    this.showDatePicker = true; // Show the date picker
+  }
+
+  closeDatePicker() {
+    this.showDatePicker = false; // Hide the date picker
+  }
+
+  onDateSelected(date: Date) {
+    this.selectedDate = date; // Update the selected date
+    this.closeDatePicker(); // Close the date picker after selection
+  }
+
+
 
   async loadEmployeeDetails(id: number): Promise<void> {
     try {

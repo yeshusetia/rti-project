@@ -27,7 +27,29 @@
       </div>
   
       <div class="form-group date-picker-group">
-        <!-- <app-date-picker></app-date-picker> -->
+     
+        <div class="date-input" (click)="openDatePicker()">
+          <img src="assets/icons/date-picker.svg" alt="Calendar" />
+          <span>{{ selectedDate ? (selectedDate | date: 'd MMM y') : 'No Date' }}</span>
+        </div>
+
+        <div><img src="assets/icons/right-arrow.svg" alt=""></div>
+
+        <div class="date-input" (click)="openDatePicker()">
+          <img src="assets/icons/date-picker.svg" alt="Calendar" />
+          <span>{{ selectedDate ? (selectedDate | date: 'd MMM y') : 'No Date' }}</span>
+        </div>
+      
+        <!-- Overlay Date Picker -->
+        <div *ngIf="showDatePicker" class="date-picker-overlay">
+          <div class="date-picker-wrapper">
+            <app-date-picker
+              (dateSelected)="onDateSelected($event)"
+              (cancelSelection)="closeDatePicker()"
+            ></app-date-picker>
+          </div>
+        </div>
+
       </div>
 
      </div>
