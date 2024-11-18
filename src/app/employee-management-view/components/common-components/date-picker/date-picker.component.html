@@ -79,7 +79,7 @@
     <div class="date-picker-footer">
       <span class="selected-date">
         <img src="assets/icons/date-picker.svg" alt="Calendar" />
-        {{ selectedDate | date: 'd MMM y' }}
+        {{  selectedDate == null ? 'No Date' : (selectedDate | date: 'd MMM y') }}
       </span>
       <div>
         <button (click)="cancel()">Cancel</button>
