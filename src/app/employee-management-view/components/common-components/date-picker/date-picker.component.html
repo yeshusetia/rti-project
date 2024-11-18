@@ -1,6 +1,14 @@
 <div class="date-picker-container">
     <!-- Predefined Date Buttons -->
     <div class="predefined-buttons">
+        <button
+        type="button"
+        [class.active]="activeButton === 'Today'"
+        (click)="setNoDate()"
+      >
+        No Dates
+      </button>
+
       <button
         type="button"
         [class.active]="activeButton === 'Today'"
@@ -10,6 +18,7 @@
       </button>
       <button
         type="button"
+        *ngIf="!disablePastDates"
         [class.active]="activeButton === 'Next Monday'"
         (click)="setNextMonday()"
       >
@@ -18,6 +27,7 @@
       <button
         type="button"
         [class.active]="activeButton === 'Next Tuesday'"
+        *ngIf="!disablePastDates"
         (click)="setNextTuesday()"
       >
         Next Tuesday
@@ -25,15 +35,21 @@
       <button
         type="button"
         [class.active]="activeButton === 'After 1 Week'"
+        *ngIf="!disablePastDates"
         (click)="setAfterOneWeek()"
       >
         After 1 Week
       </button>
+      
     </div>
   
     <!-- Calendar Header -->
     <div class="calendar-header">
-      <img src="assets/icons/date-picker-left.svg" (click)="changeMonth(-1)" />
+      <img
+        src="assets/icons/date-picker-left.svg"
+        [class.disabled]="!canNavigateToPreviousMonth()"
+        (click)="changeMonth(-1)"
+      />
       <span>{{ visibleMonth | date: 'MMMM y' }}</span>
       <img src="assets/icons/date-picker-right.svg" (click)="changeMonth(1)" />
     </div>
@@ -47,6 +63,7 @@
         *ngFor="let day of getCalendarDays()"
         class="day-cell"
         [class.today]="isToday(day)"
+        [class.disabled]="isDisabled(day)"
         [class.selected]="
           day.getDate() === selectedDate.getDate() &&
           day.getMonth() === selectedDate.getMonth() &&

@@ -44,6 +44,7 @@
         <div *ngIf="showDatePicker" class="date-picker-overlay">
           <div class="date-picker-wrapper">
             <app-date-picker
+               [disablePastDates]="true"
               (dateSelected)="onDateSelected($event)"
               (cancelSelection)="closeDatePicker()"
             ></app-date-picker>

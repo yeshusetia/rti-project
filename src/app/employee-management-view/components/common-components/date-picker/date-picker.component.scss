@@ -79,12 +79,15 @@
         color: white;
       }
       
-      /* Highlight today's date */
-      .day-cell.today {
-        border: 2px solid #1da1f2;
+      &.today {
+        border: 1px solid #1da1f2;
         border-radius: 50%;
       }
-      
+      &.disabled {
+        color: #E5E5E5; 
+        pointer-events: none; 
+      }
+  
 
       &:hover {
         background: #eaf4fe;
@@ -92,6 +95,14 @@
     }
   }
 
+
+  img.disabled {
+    opacity: 0.5; /* Dim the disabled arrow */
+    pointer-events: none; /* Disable click events */
+  }
+  
+  
+ 
 
 
   .date-picker-footer {
